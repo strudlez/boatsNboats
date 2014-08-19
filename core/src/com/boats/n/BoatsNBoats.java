@@ -1,4 +1,4 @@
-package com.boats.n.boats;
+package com.boats.n;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
