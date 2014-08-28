@@ -4,6 +4,8 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.boats.n.controllers.WorldController;
 import com.boats.n.models.World;
@@ -17,14 +19,14 @@ public class GameScreen implements Screen
     private World world;
     private WorldRenderer worldRenderer;
     private WorldController worldController;
-    private ShapeRenderer shapeRenderer;
+    private Batch batchRenderer;
 
     public GameScreen()
     {
         world = new World(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         worldRenderer = new WorldRenderer();
         worldController = new WorldController(world);
-        shapeRenderer = new ShapeRenderer();
+        batchRenderer = new SpriteBatch();
     }
 
     @Override
@@ -33,7 +35,10 @@ public class GameScreen implements Screen
         Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         worldController.update(delta);
-        worldRenderer.render(shapeRenderer, world);
+
+        batchRenderer.begin();
+        worldRenderer.render(batchRenderer, world);
+        batchRenderer.end();
     }
 
     @Override

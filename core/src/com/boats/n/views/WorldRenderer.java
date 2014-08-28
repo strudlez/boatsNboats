@@ -1,8 +1,7 @@
 package com.boats.n.views;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.boats.n.models.Ocean;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.boats.n.models.World;
 
 /**
@@ -21,8 +20,8 @@ public class WorldRenderer implements Renderer<World>
     }
 
     @Override
-    public void render(ShapeRenderer shapeRenderer, World world)
+    public void render(Batch batchRenderer, World world)
     {
-        oceanRenderer.render(shapeRenderer, world.getOcean());
+        oceanRenderer.render(batchRenderer, world.getOcean());
     }
 }

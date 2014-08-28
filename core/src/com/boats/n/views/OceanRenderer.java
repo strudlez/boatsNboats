@@ -1,31 +1,39 @@
 package com.boats.n.views;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Vector;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import com.boats.n.models.Ocean;
-
-import java.util.Random;
-
-import static com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 
 /**
  * Created by ben on 8/26/14.
  */
 public class OceanRenderer implements Renderer<Ocean>
 {
+    //Texture texture;
+
+    public OceanRenderer()
+    {
+        //texture = new  Texture("badlogic.jpg");
+    }
     @Override
-    public void render(ShapeRenderer shapeRenderer, Ocean ocean)
+    public void render(Batch batchRenderer, Ocean ocean)
     {
         for (Ocean.Cell<Float> cell : ocean.getDensityCells())
         {
             float density = cell.getValue();
 
-            shapeRenderer.begin(ShapeType.Filled);
-            shapeRenderer.setColor(density, density, density, 1);
-            shapeRenderer.rect(cell.getX(), cell.getY(), cell.getSize(), cell.getSize());
-            shapeRenderer.end();
+            //batchRenderer.ShapeType.Filled);
+            batchRenderer.setColor(density, density, density, 1);
+            //batchRenderer.rect(cell.getX(), cell.getY(), cell.getSize(), cell.getSize());
+            //batchRenderer.end();
+            
+            /*batchRenderer.draw(texture,
+                    cell.getX(),
+                    cell.getY(),
+                    cell.getSize(),
+                    cell.getSize());*/
         }
 
         for (Ocean.Cell<Vector2> cell : ocean.getVelocityCells())
@@ -36,11 +44,11 @@ public class OceanRenderer implements Renderer<Ocean>
             float toX = startX + velocity.x * 50;
             float toY = startY + velocity.y * 50;
 
-            shapeRenderer.begin(ShapeType.Line);
-            shapeRenderer.setColor(Color.RED);
+            //batchRenderer.begin(ShapeType.Line);
+            batchRenderer.setColor(Color.RED);
             // shapeRenderer.rect(cell.getX(), cell.getY(), cell.getSize(), cell.getSize());
-            shapeRenderer.line(startX, startY, toX, toY);
-            shapeRenderer.end();
+            //batchRenderer.line(startX, startY, toX, toY);
+            //batchRenderer.end();
         }
     }
 }
