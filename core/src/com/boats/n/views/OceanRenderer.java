@@ -11,11 +11,11 @@ import com.boats.n.models.Ocean;
  */
 public class OceanRenderer implements Renderer<Ocean>
 {
-    //Texture texture;
+    private final Texture texture;
 
     public OceanRenderer()
     {
-        //texture = new  Texture("badlogic.jpg");
+        texture = new  Texture("badlogic.jpg");
     }
     @Override
     public void render(Batch batchRenderer, Ocean ocean)
@@ -28,12 +28,12 @@ public class OceanRenderer implements Renderer<Ocean>
             batchRenderer.setColor(density, density, density, 1);
             //batchRenderer.rect(cell.getX(), cell.getY(), cell.getSize(), cell.getSize());
             //batchRenderer.end();
-            
-            /*batchRenderer.draw(texture,
+
+            batchRenderer.draw(texture,
                     cell.getX(),
                     cell.getY(),
                     cell.getSize(),
-                    cell.getSize());*/
+                    cell.getSize());
         }
 
         for (Ocean.Cell<Vector2> cell : ocean.getVelocityCells())
@@ -44,8 +44,15 @@ public class OceanRenderer implements Renderer<Ocean>
             float toX = startX + velocity.x * 50;
             float toY = startY + velocity.y * 50;
 
+            batchRenderer.setColor(Math.abs(velocity.x), Math.abs(velocity.y), 0, 1);
+
+            /*batchRenderer.draw(texture,
+                    cell.getX(),
+                    cell.getY(),
+                    cell.getSize(),
+                    cell.getSize());*/
+
             //batchRenderer.begin(ShapeType.Line);
-            batchRenderer.setColor(Color.RED);
             // shapeRenderer.rect(cell.getX(), cell.getY(), cell.getSize(), cell.getSize());
             //batchRenderer.line(startX, startY, toX, toY);
             //batchRenderer.end();

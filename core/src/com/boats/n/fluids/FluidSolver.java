@@ -343,7 +343,7 @@ public class FluidSolver
 
     public void addVelocity(int x, int y, Vector2 delta)
     {
-        velocity.get(x, y).add(delta);
+        velocity.get(x, y).add(delta.cpy().scl(timeStep));
     }
 
 
@@ -358,5 +358,13 @@ public class FluidSolver
     public Grid<Vector2> getVelocity()
     {
         return velocity;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
     }
 }

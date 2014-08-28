@@ -53,6 +53,13 @@ public class Ocean
         this.fluidSolver.step(dt);
     }
 
+    public void addVelocity(Vector2 position, Vector2 delta)
+    {
+        int x = Math.round(position.x / CELL_SIZE);
+        int y = fluidSolver.getHeight() - Math.round(position.y / CELL_SIZE);
+        fluidSolver.addVelocity(x, y, delta.x * 100, delta.y * 100);
+    }
+
     public class Cell<T>
     {
         private final int x;
