@@ -344,21 +344,20 @@ public class FluidSolver
                 int top = (int) y;
                 int bottom = top + 1;
 
-                float s1 = x - left;
-                float s0 = 1 - s1;
-                float t1 = y - top;
-                float t0 = 1 - t1;
+                float dLeft = x - left;
+                float dRight = 1 - dLeft;
+                float dTop = y - top;
+                float dBottom = 1 - dTop;
 
-                to.put(col, row, from.get(left, top).cpy()
-                                     .scl(t0)
-                                     .add(from.get(left, bottom).cpy()
-                                              .scl(t1))
-                                     .scl(s0).add(from.get(right, top).cpy()
-                                                      .scl(t0)
-                                                      .add(from.get(right, bottom).cpy()
-                                                               .scl(t1))
-                                                      .scl(s1)
-                ));
+                T topLeft = from.get(left, top).cpy().scl(dLeft).scl(dTop);
+                T bottomLeft = from.get(left, bottom).cpy().scl(dLeft).scl(dBottom);
+                T bottomRight = from.get(right, bottom).cpy().scl(dRight).scl(dBottom);
+                T topRight = from.get(right, top).cpy().scl(dRight).scl(dTop);
+
+                to.put(col, row, topLeft
+                        .add(bottomLeft)
+                        .add(topRight)
+                        .add(bottomRight));
 
             }
         }
