@@ -36,12 +36,11 @@ public class OceanRenderer implements Renderer<Ocean>
             float toX = startX + velocity.x * 50;
             float toY = startY + velocity.y * 50;
 
-            shapeRenderer.begin(ShapeType.Filled);
-            shapeRenderer.setColor(velocity.len(), velocity.len(), velocity.len(), 1);
-            shapeRenderer.rect(cell.getX(), cell.getY(), cell.getSize(), cell.getSize());
-            //  shapeRenderer.line(startX, startY, toX, toY);
+            shapeRenderer.begin(ShapeType.Line);
+            shapeRenderer.setColor(Color.RED);
+            // shapeRenderer.rect(cell.getX(), cell.getY(), cell.getSize(), cell.getSize());
+            shapeRenderer.line(startX, startY, toX, toY);
             shapeRenderer.end();
         }
-
     }
 }

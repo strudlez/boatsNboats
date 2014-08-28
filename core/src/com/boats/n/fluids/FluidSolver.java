@@ -148,12 +148,15 @@ public class FluidSolver
             buffer = new ArrayTableGrid<Vector2>(width + 2, height + 2, ZERO_VECTOR_SUPPLIER);
         }
 
-        public void solve(Grid<Vector2> curVelocity, float visc, float dt)
+        public Grid<Vector2> solve(Grid<Vector2> curVelocity, float visc, float dt)
         {
-            diffuse(buffer, curVelocity, visc, dt);
-            project(buffer, curVelocity);
-            advect(curVelocity, buffer, buffer);
+            diffuse(curVelocity, buffer, visc, dt);
             project(curVelocity, buffer);
+
+            advect(buffer, curVelocity, curVelocity);
+            project(buffer, curVelocity);
+
+            return buffer;
         }
 
         private void project(Grid<Vector2> curVelocity, Grid<Vector2> buffer)
@@ -188,8 +191,8 @@ public class FluidSolver
             {
                 for (int y = 1; y <= height; y++)
                 {
-                    velocity.get(x, y).x -= 0.5f * (buffer.get(x + 1, y).y - buffer.get(x - 1, y).y) / h;
-                    velocity.get(x, y).y -= 0.5f * (buffer.get(x, y + 1).y - buffer.get(x, y - 1).y) / h;
+                    curVelocity.get(x, y).x -= 0.5f * (buffer.get(x + 1, y).y - buffer.get(x - 1, y).y) / h;
+                    curVelocity.get(x, y).y -= 0.5f * (buffer.get(x, y + 1).y - buffer.get(x, y - 1).y) / h;
                 }
             }
         }
@@ -212,6 +215,7 @@ public class FluidSolver
             }
         }
     }
+
 
     /**
      * Calculate the curl at position (x, y) in the fluid grid.
@@ -326,46 +330,34 @@ public class FluidSolver
         float n = (float) Math.sqrt(width*width + height*height);
         float dt0 = timeStep * n;
 
-        for (int x = 1; x <= width; x++)
+        for (int col = 1; col <= width; col++)
         {
-            for (int y = 1; y <= height; y++)
+            for (int row = 1; row <= height; row++)
             {
-                float xx = x - dt0 * velocity.get(x, y).x;
-                float yy = y - dt0 * velocity.get(x, y).y;
+                float x = MathUtils.clamp(col - dt0 * velocity.get(col, row).x, 0.5f, width + 0.5f);
+                float y = MathUtils.clamp(row - dt0 * velocity.get(col, row).y, 0.5f, height + 0.5f);
 
-                if (xx > width + 0.5)
-                {
-                    xx = width + 0.5f;
-                }
 
-                if (xx < 0.5)
-                {
-                    xx = 0.5f;
-                }
+                int left = (int) x;
+                int right = left + 1;
 
-                int i0 = (int) xx;
-                int i1 = i0 + 1;
+                int top = (int) y;
+                int bottom = top + 1;
 
-                if (yy > height + 0.5)
-                {
-                    yy = height + 0.5f;
-                }
-
-                if (yy < 0.5)
-                {
-                    yy = 0.5f;
-                }
-
-                int j0 = (int) yy;
-                int j1 = j0 + 1;
-
-                float s1 = xx - i0;
+                float s1 = x - left;
                 float s0 = 1 - s1;
-                float t1 = yy - j0;
+                float t1 = y - top;
                 float t0 = 1 - t1;
 
-                to.put(x, y, from.get(i0, j0).cpy().scl(t0).add(from.get(i0, j1).cpy().scl(t1)).scl(s0).add(
-                        from.get(i1, j0).cpy().scl(t0).add(from.get(i1, j1).cpy().scl(t1)).scl(s1)
+                to.put(col, row, from.get(left, top).cpy()
+                                     .scl(t0)
+                                     .add(from.get(left, bottom).cpy()
+                                              .scl(t1))
+                                     .scl(s0).add(from.get(right, top).cpy()
+                                                      .scl(t0)
+                                                      .add(from.get(right, bottom).cpy()
+                                                               .scl(t1))
+                                                      .scl(s1)
                 ));
 
             }
