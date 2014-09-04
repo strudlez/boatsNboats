@@ -85,5 +85,6 @@ public class OceanRenderer implements Renderer<Ocean>
                                position.y);
         }
         */
+        batchRenderer.setColor(Color.WHITE);
     }
 }

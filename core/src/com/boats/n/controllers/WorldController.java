@@ -11,16 +11,19 @@ public class WorldController
 {
     public World world;
     private TouchTracker touchTracker;
+    private OceanController oceanController;
 
     public WorldController(World world)
     {
         this.world = world;
         this.touchTracker = new TouchTracker(2);
+        this.oceanController = new OceanController();
     }
 
     public void update(float dt)
     {
-        world.getOcean().update(dt);
+        oceanController.update(world.getOcean(), world.getBoats(), dt);
+        world.getPhysicsWorld().step(dt);
     }
 
     public void pointerUp(Integer id)
