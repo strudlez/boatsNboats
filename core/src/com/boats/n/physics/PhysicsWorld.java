@@ -31,6 +31,10 @@ public class PhysicsWorld {
       def.type = type;
       Body box = world.createBody(def);
 
+      CircleShape circle = new CircleShape();
+      circle.setPosition(pos);
+      circle.setRadius(radius);
+
       FixtureDef fixtureDef = new FixtureDef();
       fixtureDef.density = density;
       fixtureDef.restitution = restitution;
