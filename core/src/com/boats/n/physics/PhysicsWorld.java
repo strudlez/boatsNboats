@@ -11,7 +11,7 @@ import com.badlogic.gdx.physics.box2d.World;
 public class PhysicsWorld {
     private final World world;
 
-    private static final float BOAT_FRICTION = 0.5f;
+    private static final float WATER_FRICTION = 0.5f;
 
     public PhysicsWorld()
     {
@@ -23,11 +23,12 @@ public class PhysicsWorld {
     }
 
     public Body createBoat(Vector2 pos, float radius, float density, float restitution) {
-        return createCircle(BodyType.DynamicBody, pos, radius, density, restitution, BOAT_FRICTION);
+        return createCircle(BodyType.DynamicBody, pos, radius, density, restitution);
     }
 
-    private Body createCircle(BodyType type, Vector2 pos, float radius, float density, float restitution, float friction) {
+    private Body createCircle(BodyType type, Vector2 pos, float radius, float density, float restitution) {
       BodyDef def = new BodyDef();
+      def.linearDamping = WATER_FRICTION;
       def.type = type;
       Body box = world.createBody(def);
 
@@ -38,7 +39,6 @@ public class PhysicsWorld {
       FixtureDef fixtureDef = new FixtureDef();
       fixtureDef.density = density;
       fixtureDef.restitution = restitution;
-      fixtureDef.friction = friction;
       fixtureDef.shape = circle;
 
       box.createFixture(fixtureDef);
