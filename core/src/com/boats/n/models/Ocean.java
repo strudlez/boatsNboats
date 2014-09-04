@@ -1,5 +1,6 @@
 package com.boats.n.models;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.boats.n.fluids.FluidSolver;
 import com.boats.n.fluids.JosStamFluidSolver;
@@ -27,6 +28,14 @@ public class Ocean
         fluidSolver = new JosStamFluidSolver(widthCells, heightCells);
     }
 
+    public FluidSolver getFluidSolver() {
+        return fluidSolver;
+    }
+
+    public int getCellSize() {
+        return CELL_SIZE;
+    }
+
     public Iterable<Cell<Float>> getDensityCells()
     {
         return Iterables.transform(fluidSolver.getDensity(), new Function<Table.Cell<Integer, Integer, Float>, Cell<Float>>()
@@ -49,6 +58,13 @@ public class Ocean
                 return new Cell<Vector2>(tableCell.getColumnKey(), tableCell.getRowKey(), tableCell.getValue());
             }
         });
+    }
+
+    public Vector2 getVelocityAt(Vector2 pos)
+    {
+        int x = MathUtils.clamp((int) (pos.x / CELL_SIZE), 0, widthCells);
+        int y = MathUtils.clamp((int) (pos.y / CELL_SIZE), 0, heightCells);
+        return fluidSolver.getVelocity().get(x, y).cpy();
     }
 
     public void update(float dt)

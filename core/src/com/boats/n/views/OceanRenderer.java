@@ -1,5 +1,6 @@
 package com.boats.n.views;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -73,5 +74,7 @@ public class OceanRenderer implements Renderer<Ocean>
             shapeRenderer.end();
             */
         }
+
+        batchRenderer.setColor(Color.WHITE);
     }
 }
