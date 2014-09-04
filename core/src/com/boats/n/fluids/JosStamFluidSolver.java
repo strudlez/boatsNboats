@@ -12,6 +12,7 @@ import com.boats.n.utils.*;
 import com.google.common.base.Supplier;
 import com.google.common.collect.Lists;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -359,5 +360,11 @@ public class JosStamFluidSolver implements FluidSolver
     @Override
     public int getHeight() {
         return height;
+    }
+
+    @Override
+    public Iterable<Vector2> getParticles()
+    {
+        return Collections.emptyList();
     }
 }

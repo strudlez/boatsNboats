@@ -2,17 +2,20 @@ package com.boats.n.models;
 
 import com.badlogic.gdx.math.Vector2;
 import com.boats.n.fluids.FluidSolver;
+import com.boats.n.fluids.GlenMurphyFluidSolver;
 import com.boats.n.fluids.JosStamFluidSolver;
 import com.google.common.base.Function;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Table;
+
+import java.util.Collections;
 
 /**
  * Created by ben on 8/26/14.
  */
 public class Ocean
 {
-    private static final int CELL_SIZE = 15;
+    private static final int CELL_SIZE = 10;
 
     private FluidSolver fluidSolver;
     private final int widthCells;
@@ -24,7 +27,8 @@ public class Ocean
         widthCells = width / CELL_SIZE;
         heightCells = height / CELL_SIZE;
 
-        fluidSolver = new JosStamFluidSolver(widthCells, heightCells);
+        // fluidSolver = new JosStamFluidSolver(widthCells, heightCells);
+        fluidSolver = new GlenMurphyFluidSolver(widthCells, heightCells, 30000);
     }
 
     public Iterable<Cell<Float>> getDensityCells()
@@ -47,6 +51,18 @@ public class Ocean
             public Cell<Vector2> apply(Table.Cell<Integer, Integer, Vector2> tableCell)
             {
                 return new Cell<Vector2>(tableCell.getColumnKey(), tableCell.getRowKey(), tableCell.getValue());
+            }
+        });
+    }
+
+    public Iterable<Vector2> getParticles()
+    {
+        return Iterables.transform(fluidSolver.getParticles(), new Function<Vector2, Vector2>()
+        {
+            @Override
+            public Vector2 apply(Vector2 input)
+            {
+                return input.cpy().scl(CELL_SIZE);
             }
         });
     }

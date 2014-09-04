@@ -21,4 +21,6 @@ public interface FluidSolver
     int getWidth();
 
     int getHeight();
+
+    Iterable<Vector2> getParticles();
 }

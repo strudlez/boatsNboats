@@ -1,5 +1,6 @@
 package com.boats.n.views;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -14,22 +15,23 @@ public class OceanRenderer implements Renderer<Ocean>
 {
     private final Texture cellTexture;
     private final Sprite arrowSprite;
+    private final Sprite dotSprite;
 
     public OceanRenderer()
     {
         cellTexture = new Texture("badlogic.jpg");
         arrowSprite = new Sprite(new Texture("arrow.png"));
+        dotSprite = new Sprite(new Texture("dot.png"));
     }
+
     @Override
     public void render(Batch batchRenderer, Ocean ocean)
     {
         for (Ocean.Cell<Float> cell : ocean.getDensityCells())
         {
-            float density = cell.getValue();
-
-
+            float density = MathUtils.clamp(cell.getValue(), 0, 255);
             //batchRenderer.ShapeType.Filled);
-            batchRenderer.setColor(0, 0, 1, density);
+            batchRenderer.setColor(0, 0, density / 255.0f, 1);
             //batchRenderer.rect(cell.getX(), cell.getY(), cell.getSize(), cell.getSize());
             //batchRenderer.end();
 
@@ -55,7 +57,7 @@ public class OceanRenderer implements Renderer<Ocean>
             // arrowSprite.draw(batchRenderer);
 
             //batchRenderer.ShapeType.Filled);
-            batchRenderer.setColor(Math.abs(velocity.x), velocity.len2(), Math.abs(velocity.y), 0.5f);
+            /* batchRenderer.setColor(Math.abs(velocity.x), velocity.len2(), Math.abs(velocity.y), 0.5f);
             //batchRenderer.rect(cell.getX(), cell.getY(), cell.getSize(), cell.getSize());
             //batchRenderer.end();
 
@@ -73,5 +75,15 @@ public class OceanRenderer implements Renderer<Ocean>
             shapeRenderer.end();
             */
         }
+
+        /*
+        for (Vector2 position : ocean.getParticles())
+        {
+            batchRenderer.setColor(new Color(1, 1, 1, 0.1f));
+            batchRenderer.draw(dotSprite,
+                               position.x,
+                               position.y);
+        }
+        */
     }
 }
