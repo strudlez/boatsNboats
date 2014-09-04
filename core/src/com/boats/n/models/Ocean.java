@@ -2,6 +2,7 @@ package com.boats.n.models;
 
 import com.badlogic.gdx.math.Vector2;
 import com.boats.n.fluids.FluidSolver;
+import com.boats.n.fluids.JosStamFluidSolver;
 import com.google.common.base.Function;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Table;
@@ -14,14 +15,16 @@ public class Ocean
     private static final int CELL_SIZE = 15;
 
     private FluidSolver fluidSolver;
+    private final int widthCells;
+    private final int heightCells;
 
     public Ocean(int width, int height)
     {
 
-        int widthCells = width / CELL_SIZE;
-        int heightCells = height / CELL_SIZE;
+        widthCells = width / CELL_SIZE;
+        heightCells = height / CELL_SIZE;
 
-        fluidSolver = new FluidSolver(widthCells, heightCells, 0.1f);
+        fluidSolver = new JosStamFluidSolver(widthCells, heightCells);
     }
 
     public Iterable<Cell<Float>> getDensityCells()
@@ -56,8 +59,14 @@ public class Ocean
     public void addVelocity(Vector2 position, Vector2 delta)
     {
         int x = Math.round(position.x / CELL_SIZE);
-        int y = fluidSolver.getHeight() - Math.round(position.y / CELL_SIZE);
-        fluidSolver.addVelocity(x, y, delta.x * 100, delta.y * 100);
+        int y =  Math.round(position.y / CELL_SIZE);
+        for (int i = Math.max(0, x - 2); i < Math.min(x + 2, widthCells); i++)
+        {
+            for (int j = Math.max(0, y - 2); j < Math.min(y + 2, heightCells); j++)
+            {
+                fluidSolver.addVelocity(i, heightCells - j, -delta.x, delta.y);
+            }
+        }
     }
 
     public class Cell<T>

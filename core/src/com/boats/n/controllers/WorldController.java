@@ -36,6 +36,6 @@ public class WorldController
     public void pointerMove(Integer id, Vector2 position)
     {
         Vector2 heading = touchTracker.pointerMove(id, position);
-        world.getOcean().addVelocity(position, heading);
+        world.getOcean().addVelocity(position, heading.scl(1));
     }
 }

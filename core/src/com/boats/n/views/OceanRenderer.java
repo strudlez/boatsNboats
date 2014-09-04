@@ -1,8 +1,9 @@
 package com.boats.n.views;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.boats.n.models.Ocean;
 
@@ -11,11 +12,13 @@ import com.boats.n.models.Ocean;
  */
 public class OceanRenderer implements Renderer<Ocean>
 {
-    private final Texture texture;
+    private final Texture cellTexture;
+    private final Sprite arrowSprite;
 
     public OceanRenderer()
     {
-        texture = new  Texture("badlogic.jpg");
+        cellTexture = new Texture("badlogic.jpg");
+        arrowSprite = new Sprite(new Texture("arrow.png"));
     }
     @Override
     public void render(Batch batchRenderer, Ocean ocean)
@@ -24,16 +27,17 @@ public class OceanRenderer implements Renderer<Ocean>
         {
             float density = cell.getValue();
 
+
             //batchRenderer.ShapeType.Filled);
-            batchRenderer.setColor(density, density, density, 1);
+            batchRenderer.setColor(0, 0, 1, density);
             //batchRenderer.rect(cell.getX(), cell.getY(), cell.getSize(), cell.getSize());
             //batchRenderer.end();
 
-            batchRenderer.draw(texture,
-                    cell.getX(),
-                    cell.getY(),
-                    cell.getSize(),
-                    cell.getSize());
+            batchRenderer.draw(cellTexture,
+                               cell.getX(),
+                               cell.getY(),
+                               cell.getSize(),
+                               cell.getSize());
         }
 
         for (Ocean.Cell<Vector2> cell : ocean.getVelocityCells())
@@ -41,21 +45,33 @@ public class OceanRenderer implements Renderer<Ocean>
             Vector2 velocity = cell.getValue();
             float startX = cell.getX() + cell.getSize() / 2.0f;
             float startY = cell.getY() + cell.getSize() / 2.0f;
-            float toX = startX + velocity.x * 50;
-            float toY = startY + velocity.y * 50;
 
-            batchRenderer.setColor(Math.abs(velocity.x), Math.abs(velocity.y), 0, 1);
+            float angle = MathUtils.atan2(velocity.y, velocity.x);
 
-            /*batchRenderer.draw(texture,
-                    cell.getX(),
-                    cell.getY(),
-                    cell.getSize(),
-                    cell.getSize());*/
+            /* arrowSprite.setX(startX);
+            arrowSprite.setY(startY);
+            arrowSprite.setScale(velocity.len() * 0.5f, 0.03f);
+            arrowSprite.setRotation(MathUtils.radiansToDegrees * angle); */
+            // arrowSprite.draw(batchRenderer);
 
-            //batchRenderer.begin(ShapeType.Line);
-            // shapeRenderer.rect(cell.getX(), cell.getY(), cell.getSize(), cell.getSize());
-            //batchRenderer.line(startX, startY, toX, toY);
+            //batchRenderer.ShapeType.Filled);
+            batchRenderer.setColor(Math.abs(velocity.x), velocity.len2(), Math.abs(velocity.y), 0.5f);
+            //batchRenderer.rect(cell.getX(), cell.getY(), cell.getSize(), cell.getSize());
             //batchRenderer.end();
+
+            batchRenderer.draw(cellTexture,
+                               cell.getX(),
+                               cell.getY(),
+                               cell.getSize(),
+                               cell.getSize());
+
+            /*
+            shapeRenderer.setProjectionMatrix(batchRenderer.getProjectionMatrix());
+            shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+            // shapeRenderer.rect(cell.getX(), cell.getY(), cell.getSize(), cell.getSize());
+            shapeRenderer.line(startX, startY, toX, toY);
+            shapeRenderer.end();
+            */
         }
     }
 }

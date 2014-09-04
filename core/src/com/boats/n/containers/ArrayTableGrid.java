@@ -18,17 +18,17 @@ public class ArrayTableGrid<T> implements Grid<T>
 
     private ArrayTable<Integer, Integer, T> grid;
 
-    public ArrayTableGrid(int width, int height, final T defaultValue)
+    private ArrayTableGrid(int width, int height, final T defaultValue)
     {
         this(width, height, Suppliers.ofInstance(defaultValue));
     }
 
-    public ArrayTableGrid(int width, int height, Supplier<T> defaultValue)
+    private ArrayTableGrid(int width, int height, Supplier<T> defaultValue)
     {
         this(width, height, Functions.forSupplier(defaultValue));
     }
 
-    public ArrayTableGrid(int width, int height, Function<? super Pair<Integer, Integer>, T> valueGenerator)
+    private ArrayTableGrid(int width, int height, Function<? super Pair<Integer, Integer>, T> valueGenerator)
     {
         this.width = width;
         this.height = height;
@@ -45,6 +45,21 @@ public class ArrayTableGrid<T> implements Grid<T>
                 grid.put(y, x, valueGenerator.apply(Pair.of(x, y)));
             }
         }
+    }
+
+    public static <T> ArrayTableGrid<T> create(int width, int height, final T defaultValue)
+    {
+        return new ArrayTableGrid<T>(width, height, defaultValue);
+    }
+
+    public static <T> ArrayTableGrid<T> create(int width, int height, Supplier<T> defaultValue)
+    {
+        return new ArrayTableGrid<T>(width, height, defaultValue);
+    }
+
+    public static <T> ArrayTableGrid<T> create(int width, int height, Function<? super Pair<Integer, Integer>, T> valueGenerator)
+    {
+        return new ArrayTableGrid<T>(width, height, valueGenerator);
     }
 
     @Override
