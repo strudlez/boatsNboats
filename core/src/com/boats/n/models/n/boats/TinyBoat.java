@@ -8,9 +8,9 @@ import com.boats.n.physics.PhysicsWorld;
 
 public class TinyBoat implements Boat {
 
-    private static final float RADIUS = 64;
-    private static final float DENSITY = 0.5f;
-    private static final float RESTITUTION = 0.5f;
+    private static final float RADIUS = 32;
+    private static final float DENSITY = 0.1f;
+    private static final float RESTITUTION = 0.1f;
     private static final Vector2 DISPLAY_SIZE = new Vector2(RADIUS * 2, RADIUS * 2);
 
     private final Body body;

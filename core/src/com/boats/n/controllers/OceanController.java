@@ -23,7 +23,8 @@ public class OceanController {
     }
 
     public void pushBoat(Boat boat, Ocean ocean, float dt) {
-        Vector2 pos = boat.getBody().getPosition();
-        boatController.pushBoat(boat, ocean.getVelocityAt(pos).scl(100000));
+        Vector2 pos = boat.getBody().getWorldCenter();
+        Vector2 velocity = ocean.getVelocityAt(pos);
+        boatController.pushBoat(boat, velocity.scl(5000));
     }
 }

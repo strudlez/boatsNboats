@@ -6,6 +6,6 @@ import com.boats.n.models.Boat;
 public class BoatController {
 
     public void pushBoat(Boat boat, Vector2 force) {
-        boat.getBody().applyForce(force, boat.getBody().getPosition(), true);
+        boat.getBody().applyForce(force, boat.getBody().getWorldCenter(), true);
     }
 }
