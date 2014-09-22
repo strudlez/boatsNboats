@@ -1,8 +1,6 @@
 package com.boats.n.views;
 
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.math.Vector2;
 import com.boats.n.models.Boat;
 import com.boats.n.models.World;
 
@@ -11,16 +9,15 @@ import com.boats.n.models.World;
  */
 public class WorldRenderer implements Renderer<World>
 {
-    private OrthographicCamera cam;
 
     private OceanRenderer oceanRenderer;
     private BoatRenderer boatRenderer;
 
     public WorldRenderer()
     {
-        cam = new OrthographicCamera();
         oceanRenderer = new OceanRenderer();
         boatRenderer = new BoatRenderer();
+
     }
 
     @Override
