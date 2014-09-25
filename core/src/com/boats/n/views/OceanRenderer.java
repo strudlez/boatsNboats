@@ -31,15 +31,15 @@ public class OceanRenderer implements Renderer<Ocean>
         {
             float density = MathUtils.clamp(cell.getValue(), 0, 255);
             //batchRenderer.ShapeType.Filled);
-            batchRenderer.setColor(0, 0, density / 255.0f, 1);
+            //batchRenderer.setColor(0, 0, density / 255.0f, 1);
             //batchRenderer.rect(cell.getX(), cell.getY(), cell.getSize(), cell.getSize());
             //batchRenderer.end();
 
-            batchRenderer.draw(cellTexture,
+            /*batchRenderer.draw(cellTexture,
                                cell.getX(),
                                cell.getY(),
                                cell.getSize(),
-                               cell.getSize());
+                               cell.getSize());*/
         }
 
         for (Ocean.Cell<Vector2> cell : ocean.getVelocityCells())
@@ -85,6 +85,6 @@ public class OceanRenderer implements Renderer<Ocean>
                                position.y);
         }
         */
-        batchRenderer.setColor(Color.WHITE);
+        //batchRenderer.setColor(Color.WHITE);
     }
 }
