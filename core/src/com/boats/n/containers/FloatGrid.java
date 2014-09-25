@@ -11,16 +11,8 @@ public class FloatGrid {
         this.grid = new float[width * height];
     }
 
-    public float get(int i) {
-        return grid[i];
-    }
-
     public float get(int x, int y) {
         return grid[y * width + x];
-    }
-
-    public void set(int i, float f) {
-        grid[i] = f;
     }
 
     public void set(int x, int y, float f) {

@@ -91,8 +91,6 @@ public class OceanRenderer implements Renderer<Ocean>
             }
         }
 
-
-        
         for (Vector2 position : ocean.getParticles())
         {
             batchRenderer.setColor(new Color(1, 1, 1, 0.1f));
@@ -100,7 +98,7 @@ public class OceanRenderer implements Renderer<Ocean>
                                position.x,
                                position.y);
         }
-        
+
         batchRenderer.setColor(Color.WHITE);
     }
 }
