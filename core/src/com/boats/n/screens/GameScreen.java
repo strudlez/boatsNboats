@@ -18,8 +18,8 @@ import com.boats.n.views.WorldRenderer;
 public class GameScreen implements Screen, InputProcessor
 {
 
-    private static int WORLD_WIDTH = 6400;
-    private static int WORLD_HEIGHT = 4800;
+    private static int WORLD_WIDTH = 640;
+    private static int WORLD_HEIGHT = 480;
 
     private static float VIRTUAL_WIDTH = 640;
     private static float VIRTUAL_HEIGHT = 480;

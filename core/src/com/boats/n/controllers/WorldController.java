@@ -25,7 +25,7 @@ public class WorldController
 
     public void update(float dt)
     {
-        //oceanController.update(world.getOcean(), world.getBoats(), dt);
+        oceanController.update(world.getOcean(), world.getBoats(), dt);
         world.getPhysicsWorld().step(dt);
     }
 
@@ -44,7 +44,7 @@ public class WorldController
         Vector2 heading = touchTracker.pointerMove(id, position);
         world.getOcean().addVelocity(position, heading.scl(1));
         for (Boat boat : world.getBoats()) {
-            boatController.pushBoat(boat, heading.scl(1000));
+            //boatController.pushBoat(boat, heading.scl(1000));
         }
     }
 }

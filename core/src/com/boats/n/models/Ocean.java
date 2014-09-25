@@ -2,14 +2,11 @@ package com.boats.n.models;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import com.boats.n.fluids.FluidSolver;
-import com.boats.n.fluids.GlenMurphyFluidSolver;
-import com.boats.n.fluids.JosStamFluidSolver;
+import com.boats.n.containers.FloatGrid;
+import com.boats.n.fluids.FloatFluidSolver;
+import com.boats.n.fluids.GlenMurphyFluidSolverFloat;
 import com.google.common.base.Function;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Table;
-
-import java.util.Collections;
 
 /**
  * Created by ben on 8/26/14.
@@ -18,7 +15,7 @@ public class Ocean
 {
     private static final int CELL_SIZE = 10;
 
-    private FluidSolver fluidSolver;
+    private FloatFluidSolver fluidSolver;
     private final int widthCells;
     private final int heightCells;
 
@@ -29,10 +26,10 @@ public class Ocean
         heightCells = height / CELL_SIZE;
 
         // fluidSolver = new JosStamFluidSolver(widthCells, heightCells);
-        fluidSolver = new GlenMurphyFluidSolver(widthCells, heightCells, 30000);
+        fluidSolver = new GlenMurphyFluidSolverFloat(widthCells, heightCells, 30000);
     }
 
-    public FluidSolver getFluidSolver() {
+    public FloatFluidSolver getFluidSolver() {
         return fluidSolver;
     }
 
@@ -40,28 +37,19 @@ public class Ocean
         return CELL_SIZE;
     }
 
-    public Iterable<Cell<Float>> getDensityCells()
+    public FloatGrid getDensity()
     {
-        return Iterables.transform(fluidSolver.getDensity(), new Function<Table.Cell<Integer, Integer, Float>, Cell<Float>>()
-        {
-            @Override
-            public Cell<Float> apply(Table.Cell<Integer, Integer, Float> tableCell)
-            {
-                return new Cell<Float>(tableCell.getColumnKey(), tableCell.getRowKey(), tableCell.getValue());
-            }
-        });
+        return fluidSolver.getDensity();
     }
 
-    public Iterable<Cell<Vector2>> getVelocityCells()
+    public FloatGrid getVelocityX()
     {
-        return Iterables.transform(fluidSolver.getVelocity(), new Function<Table.Cell<Integer, Integer, Vector2>, Cell<Vector2>>()
-        {
-            @Override
-            public Cell<Vector2> apply(Table.Cell<Integer, Integer, Vector2> tableCell)
-            {
-                return new Cell<Vector2>(tableCell.getColumnKey(), tableCell.getRowKey(), tableCell.getValue());
-            }
-        });
+        return fluidSolver.getVelocityX();
+    }
+
+    public FloatGrid getVelocityY()
+    {
+        return fluidSolver.getVelocityY();
     }
 
     public Iterable<Vector2> getParticles()
@@ -80,7 +68,8 @@ public class Ocean
     {
         int x = MathUtils.clamp((int) (pos.x / CELL_SIZE), 0, widthCells);
         int y = MathUtils.clamp((int) (pos.y / CELL_SIZE), 0, heightCells);
-        return fluidSolver.getVelocity().get(x, y).cpy();
+        return new Vector2(fluidSolver.getVelocityX().get(x, y),
+                fluidSolver.getVelocityY().get(x, y));
     }
 
     public void update(float dt)
