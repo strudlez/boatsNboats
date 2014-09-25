@@ -3,7 +3,6 @@ package com.boats.n.fluids;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.boats.n.containers.*;
-import com.boats.n.functions.Isomorphism;
 import com.boats.n.utils.ListUtils;
 import com.google.common.base.Function;
 import com.google.common.base.Supplier;
@@ -20,9 +19,6 @@ public class GlenMurphyFluidSolverFloat implements FloatFluidSolver
     private final FloatGrid vX;
     private final FloatGrid vY;
 
-    private final FloatGrid bufVelocityX;
-    private final FloatGrid bufVelocityY;
-
     private final FloatGrid bufPressureX;
     private final FloatGrid bufPressureY;
 
@@ -35,12 +31,10 @@ public class GlenMurphyFluidSolverFloat implements FloatFluidSolver
 
     public GlenMurphyFluidSolverFloat(final int width, final int height, int numParticles)
     {
-        vX = new FloatGrid(width + 10, height + 10);
-        vY = new FloatGrid(width + 10, height + 10);
-        bufVelocityX = new FloatGrid(width, height);
-        bufVelocityY = new FloatGrid(width, height);
-        bufPressureX = new FloatGrid(width, height);
-        bufPressureY = new FloatGrid(width, height);
+        vX = new FloatGrid(width + 1, height + 1);
+        vY = new FloatGrid(width + 1, height + 1);
+        bufPressureX = new FloatGrid(width + 1, height + 1);
+        bufPressureY = new FloatGrid(width + 1, height + 1);
         color = new FloatGrid(width + 1, height + 1);
 
         particles = ListUtils.nInstances(numParticles, new Supplier<Particle>()
@@ -98,8 +92,8 @@ public class GlenMurphyFluidSolverFloat implements FloatFluidSolver
             int j = triple.getSecond();
             Vector2 velocity = triple.getThird().cpy().scl(dt);
 
-            vX.set(i, j, velocity.x);
-            vY.set(i, j, velocity.y);
+            vX.add(i, j, velocity.x);
+            vY.add(i, j, velocity.y);
 
         }
 
@@ -107,8 +101,8 @@ public class GlenMurphyFluidSolverFloat implements FloatFluidSolver
         {
             for (int j = 1; j < height - 1; j ++)
             {
-                bufVelocityX.add(i, j, getBufferVelocityX(i, j));
-                bufVelocityY.add(i, j, getBufferVelocityY(i, j));
+                vX.add(i, j, getBufferVelocityX(i, j));
+                vY.add(i, j, getBufferVelocityY(i, j));
             }
         }
     }
@@ -256,11 +250,6 @@ public class GlenMurphyFluidSolverFloat implements FloatFluidSolver
                 position.add(velocity);
                 velocity.scl(0.5f);
             }
-        }
-
-        public Vector2 getVelocity()
-        {
-            return velocity;
         }
 
         public Vector2 getPosition()
