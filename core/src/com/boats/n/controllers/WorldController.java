@@ -1,6 +1,7 @@
 package com.boats.n.controllers;
 
 import com.badlogic.gdx.math.Vector2;
+import com.boats.n.models.Boat;
 import com.boats.n.models.World;
 import com.boats.n.objects.TouchTracker;
 
@@ -12,12 +13,14 @@ public class WorldController
     public World world;
     private TouchTracker touchTracker;
     private OceanController oceanController;
+    private BoatController boatController;
 
     public WorldController(World world)
     {
         this.world = world;
         this.touchTracker = new TouchTracker(2);
         this.oceanController = new OceanController();
+        this.boatController = new BoatController();
     }
 
     public void update(float dt)
@@ -40,5 +43,8 @@ public class WorldController
     {
         Vector2 heading = touchTracker.pointerMove(id, position);
         world.getOcean().addVelocity(position, heading.scl(1));
+        for (Boat boat : world.getBoats()) {
+            //boatController.pushBoat(boat, heading.scl(1000));
+        }
     }
 }
