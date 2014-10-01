@@ -96,6 +96,7 @@ public class GlenMurphyFluidSolverFloat implements FloatFluidSolver
             vY.add(i, j, velocity.y);
 
         }
+        velocityBuffer.clear();
 
         for (int i = 1; i < width - 1; i++)
         {
